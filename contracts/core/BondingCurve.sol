@@ -36,6 +36,7 @@ contract BondingCurve is ReentrancyGuard {
 
     error Unauthorized();
     error InvalidState();
+    error InsufficientMarketCap();
 
     constructor(
         address factory_,
@@ -109,6 +110,7 @@ contract BondingCurve is ReentrancyGuard {
     }
 
     function graduate() external nonReentrant {
+        if (marketCap() < targetMarketCap) revert InsufficientMarketCap();
         _graduate();
     }
 
