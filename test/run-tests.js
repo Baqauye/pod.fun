@@ -42,6 +42,18 @@ expectContains(
 );
 
 expectContains(
+  path.join(contractsDir, 'core', 'BondingCurve.sol'),
+  /receive\(\) external payable {\s*if \(msg\.sender != factory\) revert Unauthorized\(\);\s*reservePEth \+= msg\.value;\s*}/,
+  'BondingCurve receive() must gate funding to the factory and update reservePEth'
+);
+
+expectContains(
+  path.join(contractsDir, 'core', 'BondingCurve.sol'),
+  /uint256 pEthBalance = address\(this\)\.balance;/,
+  'BondingCurve graduation must forward the full ETH balance (seed + buys)'
+);
+
+expectContains(
   path.join(contractsDir, 'core', 'LaunchpadFactory.sol'),
   /launchFeeBps = 400/,
   'Launch fee must be 4%'

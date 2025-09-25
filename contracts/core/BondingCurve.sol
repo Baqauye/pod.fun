@@ -138,7 +138,7 @@ contract BondingCurve is ReentrancyGuard {
             pair = IDEXFactory(dexFactory).createPair(token);
         }
         uint256 tokenBalance = ILaunchToken(token).balanceOf(address(this));
-        uint256 pEthBalance = reservePEth;
+        uint256 pEthBalance = address(this).balance;
         reservePEth = 0;
         SafeTransferLib.safeTransfer(token, pair, tokenBalance);
         SafeTransferLib.safeTransferNative(pair, pEthBalance);
@@ -166,5 +166,8 @@ contract BondingCurve is ReentrancyGuard {
         return linear + quad;
     }
 
-    receive() external payable {}
+    receive() external payable {
+        if (msg.sender != factory) revert Unauthorized();
+        reservePEth += msg.value;
+    }
 }
