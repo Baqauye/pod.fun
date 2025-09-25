@@ -9,5 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "ethers": "^6.12.2",
+    "pod-sdk": "^0.1.0"
+  }
 }
