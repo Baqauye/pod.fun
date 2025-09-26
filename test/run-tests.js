@@ -43,6 +43,18 @@ expectContains(
 
 expectContains(
   path.join(contractsDir, 'core', 'BondingCurve.sol'),
+  /error InsufficientMarketCap\(\);/,
+  'BondingCurve must define InsufficientMarketCap error'
+);
+
+expectContains(
+  path.join(contractsDir, 'core', 'BondingCurve.sol'),
+  /function graduate\(\) external nonReentrant {\s*if \(marketCap\(\) < targetMarketCap\) revert InsufficientMarketCap\(\);/,
+  'BondingCurve graduate must revert when market cap is below target'
+);
+
+expectContains(
+  path.join(contractsDir, 'core', 'BondingCurve.sol'),
   /receive\(\) external payable {\s*if \(msg\.sender != factory\) revert Unauthorized\(\);\s*reservePEth \+= msg\.value;\s*}/,
   'BondingCurve receive() must gate funding to the factory and update reservePEth'
 );
